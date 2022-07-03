@@ -1,0 +1,6 @@
+###
+POST http://webprojekter/22.27%20ServerStorage-P/login.php HTTP/1.1
+Content-Type: application/json
+Authorization: token 1234
+
+{"key":"httpTest1", "value":"1"}
