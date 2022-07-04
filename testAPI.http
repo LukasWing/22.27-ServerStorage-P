@@ -1,31 +1,31 @@
 ###
 # Should return itself and do insert
-POST http://webprojekter/22.27%20ServerStorage-P/storeAPI.php HTTP/1.1
+POST https://matquiz.dk/ServerStorage/storageAPI.php HTTP/1.1
 Content-Type: application/json
-Authorization: token 1234
+Authorization: 1234
 
 {"page":"ServerStorage", "key":"httpTest1", "value":"1"}
 
 ###
 # Should return key and value
-GET http://webprojekter/22.27%20ServerStorage-P/storeAPI.php HTTP/1.1
+GET https://matquiz.dk/ServerStorage/storageAPI.php HTTP/1.1
 Content-Type: application/json
-Authorization: token 1234
+Authorization: 1234
 
 {"page":"ServerStorage", "key":"httpTest1"}
 
 ### 
 # Should return 204 or 404.
-DELETE http://webprojekter/22.27%20ServerStorage-P/storeAPI.php HTTP/1.1
+DELETE https://matquiz.dk/ServerStorage/storageAPI.php HTTP/1.1
 Content-Type: application/json
-Authorization: token 1234
+Authorization: 1234
 
 {"page":"ServerStorage", "key":"httpTest1"}
 
 ### 
 # Should clear resource and return 204 or 404.
-DELETE http://webprojekter/22.27%20ServerStorage-P/storeAPI.php HTTP/1.1
+DELETE https://matquiz.dk/ServerStorage/storageAPI.php HTTP/1.1
 Content-Type: application/json
-Authorization: token 1234
+Authorization: 1234
 
 {"page":"ServerStorage"}
