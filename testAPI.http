@@ -4,7 +4,7 @@ POST https://matquiz.dk/ServerStorage/storageAPI.php HTTP/1.1
 Content-Type: application/json
 Authorization: 1234
 
-{"page":"ServerStorage", "key":"httpTest1", "value":"1"}
+{"page":"ServerStorage", "key":"httpTest1", "value":"2"}
 
 ###
 # Should return key, value and page

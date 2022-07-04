@@ -1,7 +1,5 @@
 <?php
 include "config.php";
-// set errorcodes
-
 // inserts or update
 function post($db, $page, $key, $value){
     $sql = "SELECT value FROM KeyValueStore WHERE page='$page' AND theKey='$key'";
@@ -56,7 +54,7 @@ $headers = apache_request_headers();
 $token = intval($headers['Authorization']);
 
 $data = json_decode(file_get_contents('php://input'), true);
-$page = $data["page"] ? $data["page"] : $_GET["page"];
+$page = $data["page"] ? $db->real_escape_string($data["page"]) : $db->real_escape_string($_GET["page"]);
 if(notPermitted($token) || !isset($page)){
   http_response_code(400); 
   exit(1);
@@ -65,8 +63,8 @@ if(notPermitted($token) || !isset($page)){
 $method = $_SERVER["REQUEST_METHOD"];
 switch ($method) {
     case 'POST':
-        $value = $data["value"];
-        $key = $data["key"];
+        $value = $db->real_escape_string($data["value"]);
+        $key = $db->real_escape_string($data["key"]);
         if (isset($key, $value)) post($db, $page, $key, $value);
         else {
             http_response_code(400); 
@@ -78,7 +76,7 @@ switch ($method) {
         break;
         
     case 'GET':
-        $key = $_GET["key"];
+        $key = $db->real_escape_string($_GET["key"]);
         if (isset($key)) {
             $resource = [
                 "key"  => $key,
@@ -97,8 +95,8 @@ switch ($method) {
         break;
 
     case 'DELETE':
-        $key = $data["key"];
         if (isset($key)) {
+            $key = $db->real_escape_string($data["key"]);
             deleteValue($db, $page, $key);
             http_response_code(204); 
             exit(0);
