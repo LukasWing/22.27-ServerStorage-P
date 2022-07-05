@@ -1,0 +1,11 @@
+<IfModule security2_module>
+    <If "-R '130.226.132.96'">
+        SecRuleRemoveByTag unoeuro
+    </If>
+</IfModule>
+
+<IfModule security2_module>
+    <If "%{REQUEST_URI} =~ m#/modules/webhook.php#">
+        SecRuleRemoveByTag unoeuro
+    </if>
+</IfModule>

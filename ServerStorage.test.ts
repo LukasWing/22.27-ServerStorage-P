@@ -1,11 +1,15 @@
-import { sum, ServerStorage} from "./ServerStorage"
+import { sum, ServerStorage} from "./ServerStorage";
 let ss: ServerStorage;
 
 beforeAll(() => {
-    ss = new ServerStorage("ServerStorage");
+    ss = new ServerStorage("ServerStorage","1234");
 })
-afterEach(async ()=>{
-    await ss.clear(); // caution
+// afterEach(async ()=>{
+//     await ss.clear(); // caution
+// })
+
+test('getHttpTest1 expect value inserted by testAPI', async () => {
+    expect(await ss.getItem("httpTest1")).toEqual("2");
 })
 
 test('adds 1 + 2 to equal 3', async () => {
