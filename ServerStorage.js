@@ -48,28 +48,49 @@ function sum(a, b) {
 exports.sum = sum;
 var ServerStorage = /** @class */ (function () {
     function ServerStorage(subPage, authToken) {
+        this.apiRoot = "https://matquiz.dk/ServerStorage/storageAPI.php";
         this.subPage = subPage;
         this.headers = {
             "Content-Type": "application/json",
             "Authorization": authToken
         };
-        console.log(this.headers);
     }
-    ServerStorage.prototype.removeItem = function (arg0) {
+    ServerStorage.prototype.removeItem = function (key) {
         return __awaiter(this, void 0, void 0, function () {
+            var body, response;
             return __generator(this, function (_a) {
-                throw new Error("Method not implemented.");
+                switch (_a.label) {
+                    case 0:
+                        body = {
+                            page: this.subPage,
+                            key: key
+                        };
+                        return [4 /*yield*/, fetch(this.apiRoot, {
+                                method: "DELETE",
+                                headers: this.headers,
+                                body: JSON.stringify(body)
+                            })];
+                    case 1:
+                        response = _a.sent();
+                        if (response.status === 204)
+                            return [2 /*return*/];
+                        else if (response.status === 404)
+                            console.log("No key to be deleted matched " + key);
+                        else
+                            throw new Error("Unknown error: " + response.status);
+                        return [2 /*return*/];
+                }
             });
         });
     };
     ServerStorage.prototype.getItem = function (key) {
         return __awaiter(this, void 0, void 0, function () {
-            var qs, response, res, resource;
+            var qs, response, res, errorResponse, resource;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         qs = "key=".concat(key, "&page=").concat(this.subPage);
-                        return [4 /*yield*/, fetch("https://matquiz.dk/ServerStorage/storageAPI.php?".concat(qs), {
+                        return [4 /*yield*/, fetch("".concat(this.apiRoot, "?").concat(qs), {
                                 method: "GET",
                                 headers: this.headers,
                             })];
@@ -78,6 +99,10 @@ var ServerStorage = /** @class */ (function () {
                         return [4 /*yield*/, response.text()];
                     case 2:
                         res = _a.sent();
+                        errorResponse = res === "Error getting value" || response.status === 404;
+                        if (errorResponse) {
+                            throw new Error("No such key found");
+                        }
                         resource = JSON.parse(res);
                         return [2 /*return*/, resource.value];
                 }
@@ -86,15 +111,48 @@ var ServerStorage = /** @class */ (function () {
     };
     ServerStorage.prototype.addItem = function (key, value) {
         return __awaiter(this, void 0, void 0, function () {
+            var body, response;
             return __generator(this, function (_a) {
-                throw new Error("Method not implemented.");
+                switch (_a.label) {
+                    case 0:
+                        body = {
+                            page: this.subPage,
+                            key: key,
+                            value: value
+                        };
+                        return [4 /*yield*/, fetch(this.apiRoot, {
+                                method: "POST",
+                                headers: this.headers,
+                                body: JSON.stringify(body)
+                            })];
+                    case 1:
+                        response = _a.sent();
+                        if (!response.ok) {
+                            throw new Error("Uknown error on upload: " + response.status);
+                        }
+                        return [2 /*return*/];
+                }
             });
         });
     };
     ServerStorage.prototype.clear = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var response;
             return __generator(this, function (_a) {
-                throw new Error("Method not implemented.");
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, fetch(this.apiRoot, {
+                            method: "DELETE",
+                            headers: this.headers,
+                            body: JSON.stringify({ page: this.subPage })
+                        })];
+                    case 1:
+                        response = _a.sent();
+                        if (response.status === 204)
+                            return [2 /*return*/];
+                        else
+                            throw new Error("Unknown error: " + response.status);
+                        return [2 /*return*/];
+                }
             });
         });
     };

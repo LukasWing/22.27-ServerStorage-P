@@ -41,33 +41,38 @@ var ss;
 beforeAll(function () {
     ss = new ServerStorage_1.ServerStorage("ServerStorage", "1234");
 });
-// afterEach(async ()=>{
-//     await ss.clear(); // caution
-// })
-test('getHttpTest1 expect value inserted by testAPI', function () { return __awaiter(void 0, void 0, void 0, function () {
-    var _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = expect;
-                return [4 /*yield*/, ss.getItem("httpTest1")];
+afterEach(function () { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, ss.clear()];
             case 1:
-                _a.apply(void 0, [_b.sent()]).toEqual("2");
+                _a.sent(); // caution
                 return [2 /*return*/];
         }
     });
 }); });
-test('adds 1 + 2 to equal 3', function () { return __awaiter(void 0, void 0, void 0, function () {
+test('getHttpTest1 expect value inserted', function () { return __awaiter(void 0, void 0, void 0, function () {
     var _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
-            case 0:
-                _a = expect;
-                return [4 /*yield*/, (0, ServerStorage_1.sum)(1, 2)];
+            case 0: return [4 /*yield*/, ss.addItem("tester1", 'tester1Val')];
             case 1:
-                _a.apply(void 0, [_b.sent()]).toBe(3);
+                _b.sent();
+                _a = expect;
+                return [4 /*yield*/, ss.getItem("tester1")];
+            case 2:
+                _a.apply(void 0, [_b.sent()]).toEqual("tester1Val");
                 return [2 /*return*/];
         }
+    });
+}); });
+test('error on get testNUM', function () { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        expect.assertions(1);
+        return [2 /*return*/, ss.getItem("testNUM")
+                .catch(function (e) {
+                return expect(e.message).toMatch("No such key found");
+            })];
     });
 }); });
 test('add hey as testStr get hey back', function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -85,60 +90,66 @@ test('add hey as testStr get hey back', function () { return __awaiter(void 0, v
         }
     });
 }); });
-test('add 5 as testNum get error on get testNUM', function () { return __awaiter(void 0, void 0, void 0, function () {
-    var _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0: return [4 /*yield*/, ss.addItem("testNum", '5')];
-            case 1:
-                _b.sent();
-                _a = expect;
-                return [4 /*yield*/, ss.getItem("testNUM")];
-            case 2:
-                _a.apply(void 0, [_b.sent()]).toThrowError("No such key found");
-                return [2 /*return*/];
-        }
-    });
-}); });
 test('removeItem removes testNum', function () { return __awaiter(void 0, void 0, void 0, function () {
-    var _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0: return [4 /*yield*/, ss.addItem("testNum", '5')];
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                expect.assertions(1);
+                return [4 /*yield*/, ss.addItem("testNum", '5')];
             case 1:
-                _b.sent();
+                _a.sent();
                 return [4 /*yield*/, ss.removeItem("testNum")];
             case 2:
-                _b.sent();
-                _a = expect;
-                return [4 /*yield*/, ss.getItem("testNum")];
+                _a.sent();
+                return [4 /*yield*/, ss.getItem("testNum")
+                        .catch(function (e) {
+                        return expect(e.message).toMatch("No such key found");
+                    })];
             case 3:
-                _a.apply(void 0, [_b.sent()]).toThrowError("No such key found");
+                _a.sent();
                 return [2 /*return*/];
         }
     });
 }); });
 test('clear removes allItems', function () { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0: return [4 /*yield*/, ss.addItem("testNum", '5')];
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                expect.assertions(2);
+                return [4 /*yield*/, ss.addItem("testNum", '5')];
             case 1:
-                _c.sent();
+                _a.sent();
                 return [4 /*yield*/, ss.addItem("testStr", 'John')];
             case 2:
-                _c.sent();
+                _a.sent();
                 return [4 /*yield*/, ss.clear()];
             case 3:
-                _c.sent();
-                _a = expect;
-                return [4 /*yield*/, ss.getItem("testNum")];
+                _a.sent();
+                return [4 /*yield*/, ss.getItem("testNum")
+                        .catch(function (e) {
+                        return expect(e.message).toMatch("No such key found");
+                    })];
             case 4:
-                _a.apply(void 0, [_c.sent()]).toThrowError("No such key found");
-                _b = expect;
-                return [4 /*yield*/, ss.getItem("testStr")];
+                _a.sent();
+                return [4 /*yield*/, ss.getItem("testStr")
+                        .catch(function (e) {
+                        return expect(e.message).toMatch("No such key found");
+                    })];
             case 5:
-                _b.apply(void 0, [_c.sent()]).toThrowError("No such key found");
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); });
+test('adds 1 + 2 to equal 3', function () { return __awaiter(void 0, void 0, void 0, function () {
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = expect;
+                return [4 /*yield*/, (0, ServerStorage_1.sum)(1, 2)];
+            case 1:
+                _a.apply(void 0, [_b.sent()]).toBe(3);
                 return [2 /*return*/];
         }
     });

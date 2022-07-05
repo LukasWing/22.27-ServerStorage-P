@@ -24,12 +24,14 @@ function post($db, $page, $key, $value){
 
 function get($db, $page, $key){
     $sql = "SELECT value FROM KeyValueStore WHERE page='$page' AND theKey='$key'";
+    $keySql = "SELECT theKey FROM KeyValueStore WHERE page='$page' AND theKey='$key'";
     $value = serverVal($db, false, $sql);
-    if($value) return $value;
+    $dbKey = serverVal($db, false, $keySql);
+    if($value && $key == $dbKey) return $value;
     else{
         echo "Error getting value";
-            http_response_code(400); 
-            exit(1);
+        http_response_code(404); 
+        exit(1);
     }
 }
 
@@ -88,7 +90,6 @@ switch ($method) {
             exit(0);
         } else {
             echo "Error getting key and page";
-            var_dump($key);
             http_response_code(400); 
             exit(1);
         }
@@ -98,7 +99,7 @@ switch ($method) {
         if (isset($key)) {
             $key = $db->real_escape_string($data["key"]);
             deleteValue($db, $page, $key);
-            http_response_code(204); 
+            http_response_code(204);
             exit(0);
         } else if (isset($page)) {
             deletePage($db, $page);
