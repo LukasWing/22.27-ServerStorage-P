@@ -46,7 +46,15 @@ function sum(a, b) {
     });
 }
 exports.sum = sum;
+/**
+ * class mimicking localStorage functionality and essentially exposes a keyValueStore.
+ */
 var ServerStorage = /** @class */ (function () {
+    /**
+     * @param subPage an identifier for your page.
+     * @param authToken the authentication token that is needed to get access to keyv value store.
+     * Ask Lukas for this.
+     */
     function ServerStorage(subPage, authToken) {
         this.apiRoot = "https://matquiz.dk/ServerStorage/storageAPI.php";
         this.subPage = subPage;
@@ -55,6 +63,10 @@ var ServerStorage = /** @class */ (function () {
             "Authorization": authToken
         };
     }
+    /**
+     * Removes an item corresponding to page.
+     * @param key of item to be removed
+     */
     ServerStorage.prototype.removeItem = function (key) {
         return __awaiter(this, void 0, void 0, function () {
             var body, response;
@@ -83,6 +95,12 @@ var ServerStorage = /** @class */ (function () {
             });
         });
     };
+    /**
+     * Retrives item
+     * @param key key of value to be retrieved
+     * @returns value
+     * @throws No such key found.
+     */
     ServerStorage.prototype.getItem = function (key) {
         return __awaiter(this, void 0, void 0, function () {
             var qs, response, res, errorResponse, resource;
@@ -109,6 +127,11 @@ var ServerStorage = /** @class */ (function () {
             });
         });
     };
+    /**
+     * Adds item to key value store with given page.
+     * @param key
+     * @param value
+     */
     ServerStorage.prototype.addItem = function (key, value) {
         return __awaiter(this, void 0, void 0, function () {
             var body, response;
@@ -135,6 +158,9 @@ var ServerStorage = /** @class */ (function () {
             });
         });
     };
+    /**
+     * Clears entire key value store on this page
+     */
     ServerStorage.prototype.clear = function () {
         return __awaiter(this, void 0, void 0, function () {
             var response;

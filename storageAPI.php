@@ -1,5 +1,22 @@
 <?php
 include "config.php";
+function serverVal($db, $debug, $sql){
+    if(!$result = $db->query($sql) and $debug){
+        echo $db->error."Error from serverVal(). Sql was: ".$sql;
+        return NULL;
+        
+    }else{
+        if($assoc = $result->fetch_assoc()){
+            if($debug and array_values($assoc)[1]){
+                echo "Error multiple values from serverVal. Sql was: ".$sql;
+                return NULL;
+            }else {
+                return array_values($assoc)[0];
+            }
+        }
+    }
+}
+
 // inserts or update
 function post($db, $page, $key, $value){
     $sql = "SELECT value FROM KeyValueStore WHERE page='$page' AND theKey='$key'";

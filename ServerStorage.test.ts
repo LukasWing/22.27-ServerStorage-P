@@ -1,4 +1,4 @@
-import { sum, ServerStorage} from "./ServerStorage";
+import {ServerStorage} from "./ServerStorage";
 let ss: ServerStorage;
 
 beforeAll(() => {
@@ -51,11 +51,5 @@ test('clear removes allItems', async () => {
             expect(e.message).toMatch("No such key found")
     );   
 })
-
-test('adds 1 + 2 to equal 3', async () => {
-    expect(await sum(1, 2)).toBe(3);
-});
-
-
 
 

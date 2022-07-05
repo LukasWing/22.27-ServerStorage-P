@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="ServerStorage.js" type="module"></script>
+    <script type="module">
+        import { ServerStorage } from "./ServerStorage.js";
+        let f = async function(){   
+            let ss = new ServerStorage("testerHTML","1234");
+            await ss.addItem("k2","v2");
+            document.getElementById("ans").innerText = await ss.getItem("k2");
+        }
+        f();
+    </script>
+</head>
+<body>
+    Hey value: 
+    <div id="ans">
+    </div>
+</body>
+</html>
