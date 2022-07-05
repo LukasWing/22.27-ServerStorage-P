@@ -141,16 +141,3 @@ test('clear removes allItems', function () { return __awaiter(void 0, void 0, vo
         }
     });
 }); });
-test('adds 1 + 2 to equal 3', function () { return __awaiter(void 0, void 0, void 0, function () {
-    var _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = expect;
-                return [4 /*yield*/, (0, ServerStorage_1.sum)(1, 2)];
-            case 1:
-                _a.apply(void 0, [_b.sent()]).toBe(3);
-                return [2 /*return*/];
-        }
-    });
-}); });

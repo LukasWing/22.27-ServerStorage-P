@@ -36,19 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ServerStorage = exports.sum = void 0;
+exports.ServerStorage = void 0;
 var fetch = require("node-fetch");
-function sum(a, b) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            return [2 /*return*/, a + b];
-        });
-    });
-}
-exports.sum = sum;
-/**
- * class mimicking localStorage functionality and essentially exposes a keyValueStore.
- */
 var ServerStorage = /** @class */ (function () {
     /**
      * @param subPage an identifier for your page.
